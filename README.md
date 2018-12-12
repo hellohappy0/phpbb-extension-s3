@@ -26,8 +26,10 @@ Go to "ACP" > "Customise" > "Extensions" and enable the "TencentCOS" extension.
 ## Live Installation
 
 If you want to install the extension in a live board, please only use official releases.
-Note that GitHub releases are **NOT** the releases you are looking for.
-But you can download from the https://www.phpbb.com or https://www.postgraduate.top ,which can be installed as other general extensions.
+Note that GitHub releases are **NOT** the releases you are looking for.  
+You can download from the https://www.phpbb.com or https://www.postgraduate.top ,which can be installed as other general extensions.  
+如果你想要直接安装这个扩展，请不要直接下载github版本，他需要使用composer来安装相关的文件，也就是下面链接里面的Vendor文件夹里面的内容。  
+官方扩展： https://www.phpbb.com 或者作者自己的网站： https://www.postgraduate.top 
 
 
 ## License
