@@ -2,7 +2,7 @@
   "name": "AustinMaddox/tencentcos",
   "type": "phpbb-extension",
   "description": "An extension that utilizes Tencent COS as the filesystem for uploaded files.",
-  "homepage": "https://github.com/AustinMaddox/phpbb-extension-s3",
+  "homepage": "https://github.com/hellohappy0/phpbb-extension-tencentcos",
   "version": "1.0.3",
   "keywords": [
     "phpbb",
