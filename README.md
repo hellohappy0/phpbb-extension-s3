@@ -8,8 +8,8 @@ An extension for [phpBB 3.2](https://www.phpbb.com) that utilizes TencentCOS as 
 
 ## About the Tencent (Cloud Object Storage,COS)
 
-    Help documentation is here :  https://cloud.tencent.com/product/cos/document
-    帮助文档：https://cloud.tencent.com/product/cos/document
+Help documentation is here :  https://cloud.tencent.com/product/cos/document  
+帮助文档：https://cloud.tencent.com/product/cos/document
 
 ## Installation
 
