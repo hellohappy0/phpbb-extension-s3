@@ -1,0 +1,81 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>{L_SETTINGS}</h1>
+
+<p>{L_ACP_TencentCOS_ACCESS_KEYS_EXPLAIN}</p>
+
+<!-- IF TencentCOS_ERROR -->
+<div class="errorbox"><h3>{L_WARNING}</h3>
+	<p>{TencentCOS_ERROR}</p>
+</div>
+<!-- ENDIF -->
+
+<form id="acp_board" method="post" action="{U_ACTION}">
+	<fieldset>
+		<dl>
+			<dt>
+				<label for="tencentcos_aws_access_key_id">{L_ACP_TencentCOS_ACCESS_KEY_ID}</label>
+				<br>
+				<span>{L_ACP_TencentCOS_ACCESS_KEY_ID_EXPLAIN}</span>
+			</dt>
+			<dd>
+				<input type="text" id="tencentcos_aws_access_key_id" name="tencentcos_aws_access_key_id" value="{TencentCOS_ACCESS_KEY_ID}"
+					   maxlength="255" size="40"/>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="tencentcos_aws_secret_access_key">{L_ACP_TencentCOS_SECRET_ACCESS_KEY}</label>
+				<br>
+				<span>{L_ACP_TencentCOS_SECRET_ACCESS_KEY_EXPLAIN}</span>
+			</dt>
+			<dd>
+				<input type="text" id="tencentcos_aws_secret_access_key" name="tencentcos_aws_secret_access_key"
+					   value="{TencentCOS_SECRET_ACCESS_KEY}" maxlength="255" size="50"/>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="tencentcos_region">{L_ACP_TencentCOS_REGION}</label>
+				<br>
+				<span>{L_ACP_TencentCOS_REGION_EXPLAIN}</span>
+			</dt>
+			<dd>
+				<input type="text" id="tencentcos_region" name="tencentcos_region" value="{TencentCOS_REGION}" maxlength="255" size="30"/>
+			</dd>
+		</dl>
+
+		<dl>
+			<dt>
+				<label for="tencentcos_bucket">{L_ACP_TencentCOS_BUCKET}</label>
+				<br>
+				<span>{L_ACP_TencentCOS_BUCKET_EXPLAIN}</span>
+			</dt>
+			<dd>
+				<input type="text" id="tencentcos_bucket" name="tencentcos_bucket" value="{TencentCOS_BUCKET}" maxlength="255" size="30"/>
+			</dd>
+		</dl>
+
+		<hr/>
+
+		<dl>
+			<dt>
+				<label>{L_ACP_TencentCOS_IS_ENABLED}</label>
+				<br>
+				<span>{L_ACP_TencentCOS_IS_ENABLED_EXPLAIN}</span>
+			</dt>
+			<dd>{TencentCOS_IS_ENABLED}</dd>
+		</dl>
+
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}"/>&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}"/>
+		</p>
+
+		{S_FORM_TOKEN}
+	</fieldset>
+</form>
+
+<!-- INCLUDE overall_footer.html -->
