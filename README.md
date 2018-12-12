@@ -6,7 +6,7 @@ An extension for [phpBB 3.2](https://www.phpbb.com) that utilizes TencentCOS as 
 
 ## About the Tencent (Cloud Object Storage,COS)
 
-    help file here :  https://cloud.tencent.com/product/cos/document
+    Help documentation is here :  https://cloud.tencent.com/product/cos/document
 
 ## Installation
 
