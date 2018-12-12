@@ -1,27 +1,27 @@
 <?php
 /**
  *
- * @package       phpBB Extension - S3
+ * @package       phpBB Extension - TencentCOS
  * @copyright (c) 2017 Austin Maddox
  * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
 
-namespace AustinMaddox\s3\acp;
+namespace AustinMaddox\tencentcos\acp;
 
 class main_info
 {
 	function module()
 	{
 		return [
-			'filename' => '\AustinMaddox\s3\acp\main_module',
-			'title'    => 'ACP_S3_TITLE',
+			'filename' => '\AustinMaddox\tencentcos\acp\main_module',
+			'title'    => 'ACP_TencentCOS_TITLE',
 			'version'  => '1.0.3',
 			'modes'    => [
 				'settings' => [
-					'title' => 'ACP_S3',
-					'auth'  => 'ext_AustinMaddox/s3 && acl_a_board',
-					'cat'   => ['ACP_S3_TITLE'],
+					'title' => 'ACP_TencentCOS',
+					'auth'  => 'ext_AustinMaddox/tencentcos && acl_a_board',
+					'cat'   => ['ACP_TencentCOS_TITLE'],
 				],
 			],
 		];
