@@ -96,7 +96,8 @@ class main_listener implements EventSubscriberInterface
 			// Fullsize
 			$key = $filedata['physical_filename'];
 			$body = file_get_contents($this->phpbb_root_path . $this->config['upload_path'] . '/' . $key);
-			$this->uploadFileToTencentCOS($key, $body, $filedata['mimetype']);
+			$uploadFileName = utf8_basename($filedata['real_filename']);
+			$this->uploadFileToTencentCOS($key, $body, $filedata['mimetype'], $uploadFileName );
 		}
 	}
 
@@ -151,7 +152,8 @@ class main_listener implements EventSubscriberInterface
 					} catch (\Exception $e) {
 						//No such file , Upload the thumbnail to TencentCOS.
 						$body = file_get_contents($local_thumbnail);
-                                                $this->uploadFileToTencentCOS($key, $body, $attachment['mimetype']);
+						$uploadFileName = 'thumbnail_' . utf8_basename($attachment['real_filename']);
+                                                $this->uploadFileToTencentCOS($key, $body, $attachment['mimetype'], $uploadFileName);
 					}
 				}
 				$block_array['THUMB_IMAGE'] = $tencentcos_link_thumb;
@@ -170,8 +172,8 @@ class main_listener implements EventSubscriberInterface
 	 * @param $body
 	 * @param $content_type
 	 */
-	private function uploadFileToTencentCOS($key, $body, $content_type)
+	private function uploadFileToTencentCOS($key, $body, $content_type, $uploadFile_UploadName)
 	{
-		$this->tencentcos_client->putObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key,'Body' => $body, 'ACL' => 'public-read', 'ContentType' => $content_type]);
+		$this->tencentcos_client->putObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key,'Body' => $body, 'ACL' => 'public-read', 'ContentType' => $content_type, 'ContentDisposition' => $uploadFile_UploadName] );
 	}
 }
