@@ -153,7 +153,7 @@ class main_listener implements EventSubscriberInterface
                                 {
                                         // Existence on TencentCOS check. Since this method runs on every page load, we don't want to upload the thumbnail multiple times.
                                         try{
-                                                $this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key]);
+                                                $this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key ."_". $uploadFileName]);
                                                 //File has been here, nothing to do
                                         } catch (\Exception $e) {
                                                 //No such file , Upload the thumbnail to TencentCOS.
