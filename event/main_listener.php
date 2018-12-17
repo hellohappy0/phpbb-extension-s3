@@ -148,7 +148,7 @@ class main_listener implements EventSubscriberInterface
                         $local_thumbnail = $this->phpbb_root_path . $this->config['upload_path'] . '/' . $key;
                         
 			//if you want to upload file by this program rather than by yourself, Delete the following comments( 10 rows), when you finish,plase comments it again.
-                        //this program will upload you file before you view your topic , you should view all old topic to upload them.
+                        //this program will upload you file before you view your topics , you should view all old topics to upload their file.
 			/*
                         try{
                                 $this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $attachment['physical_filename'] ."_". $uploadFileName]);
