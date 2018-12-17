@@ -2,7 +2,7 @@
 /**
  *
  * @package       phpBB Extension - TencentCOS
- * @copyright (c) 2017 Austin Maddox
+ * @copyright (c) 2018 ZWYang
  * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
