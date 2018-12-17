@@ -146,7 +146,21 @@ class main_listener implements EventSubscriberInterface
 			$tencentcos_link_thumb = '//' . $this->config['tencentcos_bucket'] . '.cos.ap-chengdu.myqcloud.com/' . $key ."_". $uploadFileName;
                         $tencentcos_link_fullsize = '//' . $this->config['tencentcos_bucket'] . '.cos.ap-chengdu.myqcloud.com/' . $attachment['physical_filename'] ."_". $uploadFileName;
                         $local_thumbnail = $this->phpbb_root_path . $this->config['upload_path'] . '/' . $key;
-                        if ($this->config['img_create_thumbnail'])
+                        
+			//if you want to upload file by this program rather than by yourself, Delete the following comments( 10 rows), when you finish,plase comments it again.
+                        //this program will upload you file before you view your topic , you should view all old topic to upload them.
+			/*
+                        try{
+                                $this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $attachment['physical_filename'] ."_". $uploadFileName]);
+                                //File has been here, nothing to do
+                        } catch (\Exception $e) {
+                                //No such file , Upload the thumbnail to TencentCOS.
+                                $body = file_get_contents($this->phpbb_root_path . $this->config['upload_path'] . '/' . $attachment['physical_filename']);
+                                $this->uploadFileToTencentCOS( $attachment['physical_filename'] ."_". $uploadFileName, $body, $attachment['mimetype'], $uploadFileName);
+                        }
+                        */
+
+			if ($this->config['img_create_thumbnail'])
                         {
                                 // Existence on local filesystem check. Just in case "Create thumbnail" was turned off at some point in the past and thumbnails weren't generated.
                                 if (file_exists($local_thumbnail))
