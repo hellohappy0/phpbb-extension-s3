@@ -12,25 +12,25 @@ Compared with version 1.0.4, the latest version ( that is, the current version )
 However, to use the latest version, you need to modify a little bit of phpbb source code yourself. Modify the following two sentences in the /phpbb/attachment/delete.PHP file under the root directory of phpbb:  
 但是要使用最新版，你需要自己修改一点点phpbb的源代码。修改phpbb的根目录下的 /phpbb/attachement/delete.php 文件中的以下两句：  
 
-大约254行
-```大约254行 原
+大约274行
+```大约274行 原
     $sql = 'SELECT post_msg_id, topic_id, in_message, physical_filename, thumbnail, filesize, is_orphan
     FROM ' . ATTACHMENTS_TABLE . '
     WHERE ' . $this->db->sql_in_set($this->sql_id, $this->ids);
 ```
    改成：
-```大约254行 改
-    $sql = 'SELECT post_msg_id, topic_id, in_message, physical_filename, thumbnail, filesize, is_orphan ,real_filename
+```大约274行 改
+    $sql = 'SELECT post_msg_id, topic_id, in_message, physical_filename, thumbnail, filesize, is_orphan, real_filename
     FROM ' . ATTACHMENTS_TABLE . '
     WHERE ' . $this->db->sql_in_set($this->sql_id, $this->ids);
 ```
-大约278行
+大约298行
 ```大约278行 改
      $this->physical[] = array('filename' => $row['physical_filename'], 'thumbnail' => $row['thumbnail'], 'filesize' => $row['filesize'], 'is_orphan' => $row['is_orphan']);
 ```
    改成：
-```大约278行 改
-     $this->physical[] = array('filename' => $row['physical_filename'], 'real_filename' => $row['real_filename'], 'thumbnail' => $row['thumbnail'], 'filesize' => $row['filesize'], 'is_orphan' => $row['is_orphan']);
+```大约298行 改
+     $this->physical[] = array('filename' => $row['physical_filename'], 'thumbnail' => $row['thumbnail'], 'filesize' => $row['filesize'], 'is_orphan' => $row['is_orphan'], 'real_filename' => $row['real_filename']);
 ```
 
 ## About the Tencent (Cloud Object Storage,COS)
