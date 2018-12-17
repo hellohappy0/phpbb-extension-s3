@@ -5,6 +5,20 @@
 
 An extension for [phpBB 3.2](https://www.phpbb.com) that utilizes TencentCOS as the filesystem for uploaded files.  
 这是 phpbb 的 腾讯 对象存储 COS 扩展, 允许你使用COS来存放你的网站的文件，并替换掉文章中的所有附件链接, 所以每一个附件都会直接从COS而不是你的服务器下载。减轻了你的服务器的带宽负载。
+相对1.0.4版，最新版（也就是现在这个版本）已经可以保证下载下来的文件有正常后缀名和文件名了，而且也会在删除原图的时候把删除缩略图删掉。
+但是要使用最新版，你需要自己修改一点点phpbb的源代码。修改phpbb的根目录下的 /phpbb/attachement/delete.php 文件中的以下两句：
+    $sql = 'SELECT post_msg_id, topic_id, in_message, physical_filename, thumbnail, filesize, is_orphan
+    FROM ' . ATTACHMENTS_TABLE . '
+    WHERE ' . $this->db->sql_in_set($this->sql_id, $this->ids);
+   改成：
+    $sql = 'SELECT post_msg_id, topic_id, in_message, physical_filename, thumbnail, filesize, is_orphan ,real_filename
+    FROM ' . ATTACHMENTS_TABLE . '
+    WHERE ' . $this->db->sql_in_set($this->sql_id, $this->ids);
+    
+     $this->physical[] = array('filename' => $row['physical_filename'], 'thumbnail' => $row['thumbnail'], 'filesize' => $row['filesize'], 'is_orphan' => $row['is_orphan']);
+   改成：
+     $this->physical[] = array('filename' => $row['physical_filename'], 'real_filename' => $row['real_filename'], 'thumbnail' => $row['thumbnail'], 'filesize' => $row['filesize'], 'is_orphan' => $row['is_orphan']);
+
 
 ## About the Tencent (Cloud Object Storage,COS)
 
