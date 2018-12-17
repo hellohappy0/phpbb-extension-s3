@@ -16,7 +16,7 @@ class main_info
 		return [
 			'filename' => '\AustinMaddox\tencentcos\acp\main_module',
 			'title'    => 'ACP_TencentCOS_TITLE',
-			'version'  => '1.0.3',
+			'version'  => '1.0.4',
 			'modes'    => [
 				'settings' => [
 					'title' => 'ACP_TencentCOS',
