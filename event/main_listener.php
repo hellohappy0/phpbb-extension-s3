@@ -7,29 +7,25 @@
  * @license       http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  *
  */
-
 namespace AustinMaddox\tencentcos\event;
-
 use Qcloud\Cos\Client;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-
 /**
  * Event listener
  */
+
 class main_listener implements EventSubscriberInterface
 {
 	/** @var \phpbb\config\config */
 	protected $config;
-
 	/** @var \phpbb\template\template */
 	protected $template;
-
 	/** @var \phpbb\user */
 	protected $user;
-
+	/** @var \phpbb\log\log_interface */
+        protected $log;
 	/** @var $phpbb_root_path */
 	protected $phpbb_root_path;
-
 	/** @var TencentCOSClient */
 	protected $tencentcos_client;
 
@@ -39,17 +35,18 @@ class main_listener implements EventSubscriberInterface
 	 * @param \phpbb\config\config     $config   Config object
 	 * @param \phpbb\template\template $template Template object
 	 * @param \phpbb\user              $user     User object
+         * @param \phpbb\log\log_interface     $log   
 	 * @param                          $phpbb_root_path
 	 *
 	 * @access public
 	 */
-	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, $phpbb_root_path)
+	public function __construct(\phpbb\config\config $config, \phpbb\template\template $template, \phpbb\user $user, \phpbb\log\log_interface $log, $phpbb_root_path)
 	{
 		$this->config = $config;
 		$this->template = $template;
 		$this->user = $user;
+		$this->log = $log;
 		$this->phpbb_root_path = $phpbb_root_path;
-
 		if ($this->config['tencentcos_is_enabled'])
 		{
 			// Instantiate an TencentCOS client.
@@ -113,15 +110,25 @@ class main_listener implements EventSubscriberInterface
 			 foreach ($event['physical'] as $physical_file)
                         {
                                 $uploadFileName = utf8_basename($physical_file['real_filename']);
-                                $this->tencentcos_client->deleteObject([
-                                        'Bucket' => $this->config['tencentcos_bucket'],
-                                        'Key'    => $physical_file['filename'] ."_". $uploadFileName,
-                                ]);
+                                try{
+					$this->tencentcos_client->deleteObject([
+                                        	'Bucket' => $this->config['tencentcos_bucket'],
+                                        	'Key'    => $physical_file['filename'] ."_". $uploadFileName,
+                                	]);
+				}catch (\Exception $e) {
+					//Delete failed
+					$this->log->add('critical', $this->user->data['user_id'], $this->user->ip, "Delete failed!", false, [$physical_file['filename'] ."_". $uploadFileName, $e->getStatusCode(), $e->getMessage(), $e->getRequestId(), $e->getCosErrorCode()]);
+				}
                                 //only the image have the thumbnail, but you can try to delete anyway.
-                                $this->tencentcos_client->deleteObject([
-                                        'Bucket' => $this->config['tencentcos_bucket'],
-                                        'Key'    => 'thumb_' . $physical_file['filename'] ."_". $uploadFileName,
-                                ]);
+                                try{
+					$this->tencentcos_client->deleteObject([
+                                	        'Bucket' => $this->config['tencentcos_bucket'],
+                                        	'Key'    => 'thumb_' . $physical_file['filename'] ."_". $uploadFileName,
+                                	]);
+				}catch (\Exception $e) {
+                                        //Delete failed
+                                        $this->log->add('critical', $this->user->data['user_id'], $this->user->ip, "Delete failed!", false, [$physical_file['filename'] ."_". $uploadFileName, $e->getStatusCode(), $e->getMessage(), $e->getRequestId(), $e->getCosErrorCode()]);
+                                }
                         }
 		}
 	}
@@ -143,22 +150,21 @@ class main_listener implements EventSubscriberInterface
                         $uploadFileName = utf8_basename($attachment['real_filename']);
                         $key = 'thumb_' . $attachment['physical_filename'];
                         
-			$tencentcos_link_thumb = '//' . $this->config['tencentcos_bucket'] . '.cos.ap-chengdu.myqcloud.com/' . $key ."_". $uploadFileName;
-                        $tencentcos_link_fullsize = '//' . $this->config['tencentcos_bucket'] . '.cos.ap-chengdu.myqcloud.com/' . $attachment['physical_filename'] ."_". $uploadFileName;
+			$tencentcos_link_thumb = '//' . $this->config['tencentcos_bucket'] . '.cos.' . $this->config['tencentcos_region'] . '.myqcloud.com/' . $key ."_". $uploadFileName;
+                        $tencentcos_link_fullsize = '//' . $this->config['tencentcos_bucket'] . '.cos.' . $this->config['tencentcos_region'] . '.myqcloud.com/' . $attachment['physical_filename'] ."_". $uploadFileName;
                         $local_thumbnail = $this->phpbb_root_path . $this->config['upload_path'] . '/' . $key;
-                        
-			//if you want to upload file by this program rather than by yourself, Delete the following comments( 10 rows), when you finish,plase comments it again.
-                        //this program will upload you file before you view your topics , you should view all old topics to upload their file.
-			/*
-                        try{
-                                $this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $attachment['physical_filename'] ."_". $uploadFileName]);
+
+			//if you want to upload file by this program rather than by yourself, Delete the following comments( 10 rows)
+                        /*
+			try{
+                        	$this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $attachment['physical_filename'] ."_". $uploadFileName]);
                                 //File has been here, nothing to do
                         } catch (\Exception $e) {
-                                //No such file , Upload the thumbnail to TencentCOS.
+                              	//No such file , Upload the thumbnail to TencentCOS.
                                 $body = file_get_contents($this->phpbb_root_path . $this->config['upload_path'] . '/' . $attachment['physical_filename']);
                                 $this->uploadFileToTencentCOS( $attachment['physical_filename'] ."_". $uploadFileName, $body, $attachment['mimetype'], $uploadFileName);
                         }
-                        */
+			*/
 
 			if ($this->config['img_create_thumbnail'])
                         {
@@ -171,8 +177,8 @@ class main_listener implements EventSubscriberInterface
                                                 //File has been here, nothing to do
                                         } catch (\Exception $e) {
                                                 //No such file , Upload the thumbnail to TencentCOS.
-                                                $body = file_get_contents($local_thumbnail);
-                                                $this->uploadFileToTencentCOS($key ."_". $uploadFileName, $body, $attachment['mimetype'], 'thumbnail_' . $uploadFileName);
+                                               	$body = file_get_contents($local_thumbnail);
+                                               	$this->uploadFileToTencentCOS($key ."_". $uploadFileName, $body, $attachment['mimetype'], 'thumbnail_' . $uploadFileName);
                                         }
                                 }
                                 $block_array['THUMB_IMAGE'] = $tencentcos_link_thumb;
@@ -192,6 +198,11 @@ class main_listener implements EventSubscriberInterface
 	 */
 	private function uploadFileToTencentCOS($key, $body, $content_type, $uploadFile_UploadName)
 	{
-		$this->tencentcos_client->putObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key,'Body' => $body, 'ACL' => 'public-read', 'ContentType' => $content_type, 'ContentDisposition' => $uploadFile_UploadName] );
+		try{
+			$this->tencentcos_client->putObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key,'Body' => $body, 'ACL' => 'public-read', 'ContentType' => $content_type, 'ContentDisposition' => $uploadFile_UploadName] );
+                }catch (\Exception $e) {
+			//Upload failed
+                        $this->log->add('critical', $this->user->data['user_id'], $this->user->ip, "Upload failed!", false, [$physical_file['filename'] ."_". $uploadFileName, $e->getStatusCode(), $e->getMessage(), $e->getRequestId(), $e->getCosErrorCode()]);
+                }
 	}
 }
