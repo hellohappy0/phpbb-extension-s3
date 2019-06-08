@@ -199,7 +199,7 @@ class main_listener implements EventSubscriberInterface
 	private function uploadFileToTencentCOS($key, $body, $content_type, $uploadFile_UploadName)
 	{
 		try{
-			$this->tencentcos_client->putObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key,'Body' => $body, 'ACL' => 'public-read', 'ContentType' => $content_type, 'ContentDisposition' => $uploadFile_UploadName] );
+			$this->tencentcos_client->putObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $key,'Body' => $body, 'ContentType' => $content_type, 'ContentDisposition' => $uploadFile_UploadName] );
                 }catch (\Exception $e) {
 			//Upload failed
                         $this->log->add('critical', $this->user->data['user_id'], $this->user->ip, "Upload failed!", false, [$physical_file['filename'] ."_". $uploadFileName, $e->getStatusCode(), $e->getMessage(), $e->getRequestId(), $e->getCosErrorCode()]);
