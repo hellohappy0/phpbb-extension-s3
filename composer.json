@@ -3,7 +3,7 @@
   "type": "phpbb-extension",
   "description": "An extension that utilizes Tencent COS as the filesystem for uploaded files.",
   "homepage": "https://github.com/hellohappy0/phpbb-extension-tencentcos",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "keywords": [
     "phpbb",
     "extension",
@@ -11,12 +11,12 @@
     "tencent COS",
     "phpbb-extension-tencentcos"
   ],
-  "time": "2018-12-11",
+  "time": "2019-11-07",
   "license": "GPL-2.0",
   "authors": [
     {
       "name": "ZWYang",
-      "email": "775918818@qq.com",
+      "email": "yangzw@postgraduate.top",
       "homepage": "https://www.postgraduate.top",
       "role": "Developer"
     },

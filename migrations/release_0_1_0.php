@@ -18,6 +18,8 @@ class release_0_1_0 extends \phpbb\db\migration\migration
 			['config.add', ['tencentcos_aws_secret_access_key', '']],
 			['config.add', ['tencentcos_region', '']],
 			['config.add', ['tencentcos_bucket', '']],
+			['config.add', ['tencentcos_auto_upload_file', 0]],
+                        ['config.add', ['tencentcos_auto_upload_thumbnail', 0]],
 
 			[
 				'module.add',

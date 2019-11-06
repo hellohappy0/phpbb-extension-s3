@@ -86,9 +86,14 @@ class main_module
 				$config->set('tencentcos_aws_secret_access_key', $request->variable('tencentcos_aws_secret_access_key', ''));
 				$config->set('tencentcos_region', $request->variable('tencentcos_region', ''));
 				$config->set('tencentcos_bucket', $request->variable('tencentcos_bucket', ''));
+                                $config->set('tencentcos_auto_upload_file', $request->variable('tencentcos_auto_upload_file', 0));
+				$config->set('tencentcos_auto_upload_thumbnail', $request->variable('tencentcos_auto_upload_thumbnail', 0));
 				$config->set('tencentcos_is_enabled', 1);
 
 				trigger_error($user->lang('ACP_TencentCOS_SETTING_SAVED') . adm_back_link($this->u_action));
+			}
+			else{
+				$config->set('tencentcos_is_enabled', 0);
 			}
 		}
 
@@ -99,7 +104,9 @@ class main_module
 			'TencentCOS_SECRET_ACCESS_KEY' => $config['tencentcos_aws_secret_access_key'],
 			'TencentCOS_REGION'                => $config['tencentcos_region'],
 			'TencentCOS_BUCKET'                => $config['tencentcos_bucket'],
-			'TencentCOS_IS_ENABLED'            => ($config['tencentcos_is_enabled']) ? 'Enabled' : 'Disabled',
+			'TencentCOS_UPLOAD_FILE'         	=> (!empty($config['tencentcos_auto_upload_file'])) ? true : false,
+			'TencentCOS_UPLOAD_THUMBNAIL'         	=> (!empty($config['tencentcos_auto_upload_thumbnail'])) ? true : false,
+			'TencentCOS_IS_ENABLED'            	=> (!empty($config['tencentcos_is_enabled'])) ? 'Enabled' : 'Disabled',
 		]);
 	}
 }

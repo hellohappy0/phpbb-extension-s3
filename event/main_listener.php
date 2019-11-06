@@ -119,15 +119,15 @@ class main_listener implements EventSubscriberInterface
 					//Delete failed
 					$this->log->add('critical', $this->user->data['user_id'], $this->user->ip, "Delete failed!", false, [$physical_file['filename'] ."_". $uploadFileName, $e->getStatusCode(), $e->getMessage(), $e->getRequestId(), $e->getCosErrorCode()]);
 				}
-                                //only the image have the thumbnail, but you can try to delete anyway.
-                                try{
+                                //Only the image have the thumbnail, but you can try to delete anyway.
+				try{
 					$this->tencentcos_client->deleteObject([
-                                	        'Bucket' => $this->config['tencentcos_bucket'],
-                                        	'Key'    => 'thumb_' . $physical_file['filename'] ."_". $uploadFileName,
-                                	]);
+                               	        	'Bucket' => $this->config['tencentcos_bucket'],
+                                       		'Key'    => 'thumb_' . $physical_file['filename'] ."_". $uploadFileName,
+                               		]);
 				}catch (\Exception $e) {
-                                        //Delete failed
-                                        $this->log->add('critical', $this->user->data['user_id'], $this->user->ip, "Delete failed!", false, [$physical_file['filename'] ."_". $uploadFileName, $e->getStatusCode(), $e->getMessage(), $e->getRequestId(), $e->getCosErrorCode()]);
+                                       	//Delete failed
+                                       	$this->log->add('critical', $this->user->data['user_id'], $this->user->ip, "Delete failed!", false, ['thumb_' .$physical_file['filename'] ."_". $uploadFileName, $e->getStatusCode(), $e->getMessage(), $e->getRequestId(), $e->getCosErrorCode()]);
                                 }
                         }
 		}
@@ -154,22 +154,23 @@ class main_listener implements EventSubscriberInterface
                         $tencentcos_link_fullsize = '//' . $this->config['tencentcos_bucket'] . '.cos.' . $this->config['tencentcos_region'] . '.myqcloud.com/' . $attachment['physical_filename'] ."_". $uploadFileName;
                         $local_thumbnail = $this->phpbb_root_path . $this->config['upload_path'] . '/' . $key;
 
-			//if you want to upload file by this program rather than by yourself, Delete the following comments( 10 rows)
-                        /*
-			try{
-                        	$this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $attachment['physical_filename'] ."_". $uploadFileName]);
-                                //File has been here, nothing to do
-                        } catch (\Exception $e) {
-                              	//No such file , Upload the thumbnail to TencentCOS.
-                                $body = file_get_contents($this->phpbb_root_path . $this->config['upload_path'] . '/' . $attachment['physical_filename']);
-                                $this->uploadFileToTencentCOS( $attachment['physical_filename'] ."_". $uploadFileName, $body, $attachment['mimetype'], $uploadFileName);
-                        }
-			*/
+			//When you use this plug-in for the first time, if you have attachments in your website, you need to open it to automatically upload your previous attachments.
+                       	if ($this->config['tencentcos_auto_upload_file'])
+			{
+				try{
+                        		$this->tencentcos_client->headObject(['Bucket' => $this->config['tencentcos_bucket'], 'Key' => $attachment['physical_filename'] ."_". $uploadFileName]);
+                                	//File has been here, nothing to do
+                        	} catch (\Exception $e) {
+                              		//No such file , Upload the thumbnail to TencentCOS.
+                                	$body = file_get_contents($this->phpbb_root_path . $this->config['upload_path'] . '/' . $attachment['physical_filename']);
+                                	$this->uploadFileToTencentCOS( $attachment['physical_filename'] ."_". $uploadFileName, $body, $attachment['mimetype'], $uploadFileName);
+                        	}
+			}
 
 			if ($this->config['img_create_thumbnail'])
                         {
-                                // Existence on local filesystem check. Just in case "Create thumbnail" was turned off at some point in the past and thumbnails weren't generated.
-                                if (file_exists($local_thumbnail))
+                                // Existence on local filesystem check. Just in case "Create thumbnail" was turned off at some point in the past and thumbnails weren't generated.If you make sure your website doesn't upload thumbnails, you don't have to upload them automatically.
+                                if ($this->config['tencentcos_auto_upload_thumbnail'] && file_exists($local_thumbnail))
                                 {
                                         // Existence on TencentCOS check. Since this method runs on every page load, we don't want to upload the thumbnail multiple times.
                                         try{

@@ -18,6 +18,9 @@ if (empty($lang) || !is_array($lang))
 }
 
 $lang = array_merge($lang, [
+        'YES'		=> 'yes',
+        'NO'		=> 'no',
+
 	'ACP_TencentCOS'               => 'Settings',
 	'ACP_TencentCOS_SETTING_SAVED' => 'Settings have been saved successfully!',
 
@@ -40,6 +43,12 @@ $lang = array_merge($lang, [
 	'ACP_TencentCOS_BUCKET'         => 'TencentCOS Bucket',
 	'ACP_TencentCOS_BUCKET_EXPLAIN' => 'Enter the name of your TencentCOS bucket, e.g.: <samp>example-1258617708</samp>. The bucket must already be created in your Tencent account.',
 	'ACP_TencentCOS_BUCKET_INVALID' => 'You must enter a valid TencentCOS bucket. To learn more about Tencent access keys, visit the <a href="https://cloud.tencent.com/product/cos/document" target="_blank">developer documentation</a> .',
+
+        'ACP_TencentCOS_UPLOAD_FILE'         	=> 'Auto Upload File',
+        'ACP_TencentCOS_UPLOAD_FILE_EXPLAIN' 	=> 'Every time you visit the website, all the attachments in your webpage (the attachments only include those in the "files" folder) will be uploaded to the bucket automatically. It is recommended to turn off this option to speed up your page access when you have made sure that all attachments have been uploaded. This option is used to help you upload your old files to the bucket.',
+
+        'ACP_TencentCOS_UPLOAD_THUMBNAIL'            => 'Auto Upload Thumbnail',
+        'ACP_TencentCOS_UPLOAD_THUMBNAIL_EXPLAIN'    => 'Every time you visit the website, all thumbnails (only those in the "files" folder) in your webpage will be uploaded to the bucket automatically. If thumbnail generation is set in your website settings, you need to turn on this option to help you upload new thumbnails to the bucket.',
 
 	'ACP_TencentCOS_IS_ENABLED'         => 'Is the extension enabled?',
 	'ACP_TencentCOS_IS_ENABLED_EXPLAIN' => 'Displays whether or not the extension is enabled and will use TencentCOS for uploading and delivering your attachments.If you did not have this extension installed when you started using phpbb, before you use this extension, you need to copy all the contents of the file folder under the root path of phpbb(That is, the path where the files you downloaded are stored) into the bucket. If you do not do this, you may be prompted for errors when accessing attachments or pictures. This error reporting is not fatal, but you will not be able to access the previous files unless you stop the extension.',
