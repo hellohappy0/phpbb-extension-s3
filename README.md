@@ -6,7 +6,7 @@
 An extension for [phpBB 3.2](https://www.phpbb.com) that utilizes TencentCOS as the filesystem for uploaded files.  
 这是 phpbb 的 腾讯 对象存储 COS 扩展, 允许你使用COS来存放你的网站的文件，并替换掉文章中的所有附件链接, 所以每一个附件都会直接从COS而不是你的服务器下载。减轻了你的服务器的带宽负载。  
 
-The latest version 1.0.6 ( that is, the current version ) can already guarantee that the downloaded file has a normal suffix and file name, and will also delete the thumbnail image when deleting the original image. Add the function of error output to the error log of ACP panel. Add the option of automatically uploading attachments to the bucket.
+The latest version 1.0.6 ( that is, the current version ) can already guarantee that the downloaded file has a normal suffix and file name, and will also delete the thumbnail image when deleting the original image. Add the function of error output to the error log of ACP panel. Add the option of automatically uploading attachments to the bucket.  
 最新版1.0.6（也就是现在这个版本）已经可以保证下载下来的文件有正常后缀名和文件名了，而且也会在删除原图的时候把删除缩略图删掉。增加错误输出到acp面板的错误日志的功能。增加自动上传附件到存储桶的选项。
  
 However, to use the latest version, you need to modify a little bit of phpbb source code yourself. Modify the following two sentences in the /phpbb/attachment/delete.PHP file under the root directory of phpbb:  
@@ -56,7 +56,7 @@ If you want to install the extension in a live board, please only use official r
 Note that GitHub releases are **NOT** the releases you are looking for.  
 You can download from the https://www.phpbb.com or https://www.postgraduate.top ,which can be installed as other general extensions.  
 如果你想要直接安装这个扩展，请不要直接下载github版本，他需要使用composer来安装相关的文件，也就是下面链接里面的Vendor文件夹里面的内容。  
-官方扩展： https://www.phpbb.com 或者作者自己的网站： https://www.postgraduate.top/viewtopic.php?f=8&t=22
+官方扩展： https://www.phpbb.com 或者作者自己的网站： https://www.postgraduate.top/viewtopic.php?p=365#p365
 
 ## License
 
