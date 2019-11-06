@@ -6,8 +6,8 @@
 An extension for [phpBB 3.2](https://www.phpbb.com) that utilizes TencentCOS as the filesystem for uploaded files.  
 这是 phpbb 的 腾讯 对象存储 COS 扩展, 允许你使用COS来存放你的网站的文件，并替换掉文章中的所有附件链接, 所以每一个附件都会直接从COS而不是你的服务器下载。减轻了你的服务器的带宽负载。  
 
-Compared with version 1.0.4, the latest version ( that is, the current version ) can already guarantee that the downloaded file has a normal suffix and file name, and will also delete the thumbnail image when deleting the original image.  Increase the error output to the error log function of the acp panel.
-相对1.0.4版，最新版（也就是现在这个版本）已经可以保证下载下来的文件有正常后缀名和文件名了，而且也会在删除原图的时候把删除缩略图删掉。同时增加错误输出到acp面板的错误日志的功能。  
+The latest version 1.0.6 ( that is, the current version ) can already guarantee that the downloaded file has a normal suffix and file name, and will also delete the thumbnail image when deleting the original image. Add the function of error output to the error log of ACP panel. Add the option of automatically uploading attachments to the bucket.
+最新版1.0.6（也就是现在这个版本）已经可以保证下载下来的文件有正常后缀名和文件名了，而且也会在删除原图的时候把删除缩略图删掉。增加错误输出到acp面板的错误日志的功能。增加自动上传附件到存储桶的选项。
  
 However, to use the latest version, you need to modify a little bit of phpbb source code yourself. Modify the following two sentences in the /phpbb/attachment/delete.PHP file under the root directory of phpbb:  
 但是要使用最新版，你需要自己修改一点点phpbb的源代码。修改phpbb的根目录下的 /phpbb/attachement/delete.php 文件中的以下两句：  
